@@ -1,0 +1,501 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "ABIS - API Rest (Buscas Civil e Criminal)",
+    "description": "Esta API Rest é Utilizada para consultas Civis e Criminais de pessoas no Estado de Pernambuco",
+    "version": "1.0.3",
+    "termsOfService": "/terms",
+    "contact": {
+      "email": "marloncastro@wedsys.com.br"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://abis-gti.apps.ocp-server.ati.pe.gov.br",
+      "description": "Production"
+    },
+    {
+      "url": "http://abis-gti-hml.apps.ocp-server.ati.pe.gov.br",
+      "description": "Homolog (Só com VPN)"
+    },
+    {
+      "url": "http://localhost:8080",
+      "description": "Dev"
+    }    
+  ],
+  "tags": [
+    {
+      "name": "Civil",
+      "description": "Consulta Civil",
+      "externalDocs": {
+        "description": "Mais informações"
+      }
+    },
+    {
+      "name": "Criminal",
+      "description": "Consulta Criminal",
+      "externalDocs": {
+        "description": "Mais informações"
+      }
+    }
+  ],
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "paths": {
+    "/wsCivil/BuscarPorRG/{v_iRG}": {
+      "get": {
+        "description": "Busca dados civis pelo RG (Deprecated)",
+        "summary": "Busca dados civis pelo RG (Deprecated)",
+        "tags": [
+          "Civil"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "v_iRG",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "simple",
+              "example": "7620643"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CidadaoDeprecated"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não Autorizado!"
+          },
+          "404": {
+            "description": "A Busca não encontrou resultados!"
+          },
+          "503": {
+            "description": "Serviço indisponível no momento."
+          }
+        }
+      }
+    },
+    "/wsCivil/BuscarCidadaoPorRG/{v_iRG}": {
+      "get": {
+        "tags": [
+          "Civil"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],        
+        "summary": "Busca dados do cidadão pelo RG",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "v_iRG",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "simple",
+              "example": "7620643"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Cidadao"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não Autorizado!"
+          },
+          "404": {
+            "description": "A Busca não encontrou resultados!"
+          },
+          "503": {
+            "description": "Serviço indisponível no momento."
+          }
+        }
+      }
+    },
+    "/wsCivil/BuscarCidadaoNominal": {
+      "get": {
+        "tags": [
+          "Civil"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],          
+        "summary": "Buscar Cidadão por nome, nome da mãe e / ou nome do pai.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "v_sNome",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Nome da Pessoa",
+              "example": "Wagner Nascimento Farias"
+            }
+          },
+          {
+            "in": "query",
+            "name": "v_sNomeMae",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Nome da Mae",
+              "example": "Edilene"
+            }
+          },
+          {
+            "in": "query",
+            "name": "v_sNomePai",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Nome do Pai",
+              "example": "Carlos"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Cidadao"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não Autorizado!"
+          },
+          "404": {
+            "description": "A Busca não encontrou resultados!"
+          },
+          "503": {
+            "description": "Serviço indisponível no momento."
+          }
+        }
+      }
+    },
+    "/wsCivil/BuscarCidadaoNominalParametrizada": {
+      "post": {
+        "summary": "Buscar Cidadão por nome, nome da mãe e / ou nome do pai",
+        "tags": [
+          "Civil"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],          
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ObjetoBuscaNominal"
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Cidadao"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não Autorizado!"
+          },
+          "404": {
+            "description": "A Busca não encontrou resultados!"
+          },
+          "503": {
+            "description": "Serviço indisponível no momento."
+          }
+        }
+      }
+    },    
+    "/wsCriminal/BuscarCidadaoNominal": {
+      "get": {
+        "tags": [
+          "Criminal"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],          
+        "summary": "Buscar Cidadão por nome, nome da mãe e / ou nome do pai",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "v_sNome",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Nome da Pessoa",
+              "example": "Wagner Nascimento Farias"
+            }
+          },
+          {
+            "in": "query",
+            "name": "v_sNomeMae",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Nome da Mae",
+              "example": "Edilene"
+            }
+          },
+          {
+            "in": "query",
+            "name": "v_sNomePai",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Nome do Pai",
+              "example": "Carlos"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Cidadao"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não Autorizado!"
+          },
+          "404": {
+            "description": "A Busca não encontrou resultados!"
+          },
+          "503": {
+            "description": "Serviço indisponível no momento."
+          }
+        }
+      }
+    },
+    "/wsCriminal/BuscarCidadaoNominalParametrizada": {
+      "post": {
+        "summary": "Buscar Cidadão na Criminal por nome, nome da mãe e / ou nome do pai",
+        "tags": [
+          "Criminal"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],          
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ObjetoBuscaNominal"
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Cidadao"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não Autorizado!"
+          },
+          "404": {
+            "description": "A Busca não encontrou resultados!"
+          },
+          "503": {
+            "description": "Serviço indisponível no momento."
+          }
+        }
+      }
+    }       
+  },
+  "components": {
+    "schemas": {
+      "CidadaoDeprecated": {
+        "type": "object",
+        "properties": {
+          "NUMEROPESSOA": {
+            "type": "string"
+          },
+          "NOME": {
+            "type": "string"
+          },
+          "PAI": {
+            "type": "string"
+          },
+          "MAE": {
+            "type": "string"
+          },
+          "CPF": {
+            "type": "string"
+          },
+          "NASCIMENTOAPROXIMADO": {
+            "type": "string"
+          },
+          "RGATRIBUIDO": {
+            "type": "string"
+          },
+          "NUMEROPEDIDO": {
+            "type": "string"
+          }
+        }
+      },
+      "Cidadao": {
+        "type": "object",
+        "properties": {
+          "NumeroPessoa": {
+            "type": "string"
+          },
+          "NumeroPedido": {
+            "type": "string"
+          },
+          "Nome": {
+            "type": "string"
+          },
+          "Mae": {
+            "type": "string"
+          },
+          "Pai": {
+            "type": "string"
+          }
+        }
+      },
+      "ObjetoBuscaNominal": {
+        "type": "object",
+        "required": "true",
+        "properties": {
+          "page": {
+            "required": true,
+            "type": "number"
+          },
+          "v_sNome": {
+            "type": "object",
+            "required": false,
+            "properties": {
+              "value": {
+                "required": true,
+                "type": "string"
+              },
+              "exata": {
+                "required": true,
+                "type": "boolean"
+              },
+              "formato": {
+                "required": true,
+                "type": "number"  
+              }
+            }                     
+          },
+          "v_sNomeMae": {
+            "type": "object",
+            "properties": {
+              "value": {
+                "required": true,
+                "type": "string"
+              },
+              "exata": {
+                "required": true,
+                "type": "boolean"
+              },
+              "formato": {
+                "required": true,
+                "type": "number"  
+              }
+            }
+          },
+          "v_sNomePai": {
+            "type": "object",
+            "properties": {
+              "value": {
+                "required": true,
+                "type": "string"
+              },
+              "exata": {
+                "required": true,
+                "type": "boolean"
+              },
+              "formato": {
+                "required": true,
+                "type": "number"  
+              }
+            }
+          }            
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
