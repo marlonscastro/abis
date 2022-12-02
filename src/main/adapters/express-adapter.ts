@@ -1,7 +1,7 @@
 
 import cors from 'cors'
 import swaggerUi from 'swagger-ui-express';
-import swaggerDocs from '../../../docs/swaggerOptions.json';
+import swaggerDocs from '@/config/swaggerOptions.json';
 
 import express, { Request, Response, Router, Express } from 'express'
 import { Adapter, httpServer } from '@/main/adapters/protocols/http-server'

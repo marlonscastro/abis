@@ -1,8 +1,8 @@
 #################################################
 #### Compilação do typescript para javascript ###
 #################################################
-# FROM openshift/node-16-buster-slim as ts-compiler
-FROM node:16-buster-slim as ts-compiler
+# FROM node:16-buster-slim as ts-compiler
+FROM openshift/node-16-buster-slim as ts-compiler
 WORKDIR /usr/app
 COPY package*.json ./
 COPY tsconfig*.json ./
@@ -14,8 +14,8 @@ RUN npm run build
 ########################################################
 #### Instalação da dependência de sistema oracle-db ####
 ########################################################
-# FROM openshift/node-16-buster-slim as oracle-db
-FROM node:16-buster-slim as oracle-db
+# FROM node:16-buster-slim as oracle-db
+FROM openshift/node-16-buster-slim as oracle-db
 WORKDIR /tmp
 RUN apt update && \ 
     apt install -y alien libaio1 python3
@@ -30,8 +30,8 @@ RUN rm -f oracle-instantclient19.9*.rpm && \
 #########################################################
 #### instalação das dependencias de produção somente ####
 #########################################################
-FROM node:16-buster-slim as ts-remover
-# FROM openshift/node-16-buster-slim as ts-remover
+# FROM node:16-buster-slim as ts-remover
+FROM openshift/node-16-buster-slim as ts-remover
 WORKDIR /usr/app
 COPY --from=ts-compiler /usr/app/package*.json ./
 COPY --from=ts-compiler /usr/app/dist ./
@@ -51,8 +51,8 @@ USER 1000
 CMD ["src/server.js"]  
 
 ################## Se for testar no docker localmente ####################
-# BUILD: docker build -t api-rest-abis .
-# RODAR O CONTAINER: docker run rm -d -p 8080:8080 api-rest-abis
+# BUILD: docker build -t abis .
+# RODAR O CONTAINER: docker run rm -d -p 8080:8080 abis
 
 ################## Deploy no Openshift ####################
 # oc new-app https://www.git.pe.gov.br/gtiusa/abis-api-rest.git#stage --strategy=docker --name abis --source-secret "gti"
