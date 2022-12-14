@@ -10,7 +10,7 @@ module.exports = {
   testMatch: [
     "<rootDir>/src/**/?(*.)+(spec).[tj]s?(x)"
   ],
-  collectCoverage: false,
+  collectCoverage: true,
   coverageDirectory: "__tests__/coverage",
   coverageProvider: "babel",
   testEnvironment: "node",
