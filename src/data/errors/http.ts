@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 export class ServerError extends Error {
     constructor (error?: Error) {
       super('Server failed. Try again soon')
@@ -6,7 +7,7 @@ export class ServerError extends Error {
     }
   }
   
-  export class UnauthorizedError extends Error {
+    export class UnauthorizedError extends Error {
     constructor () {
       super('Unauthorized')
       this.name = 'UnauthorizedError'

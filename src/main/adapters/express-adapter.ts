@@ -37,7 +37,8 @@ export class ExpressAdapter implements httpServer {
     this.app.use(express.json());
     this.app.use(this.router)
   }
-
+  
+  /* istanbul ignore next */
   public init(port: string | number) {
     this.config()
 

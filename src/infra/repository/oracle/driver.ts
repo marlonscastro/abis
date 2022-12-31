@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import oracledb from 'oracledb'
 import { config } from './config';
 

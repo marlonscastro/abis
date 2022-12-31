@@ -1,5 +1,6 @@
 import { ForbiddenError, NotFoundError, ServerError, UnauthorizedError } from '@/data/errors'
 
+/* istanbul ignore file */
 export type HttpResponse<T = any> = {
   statusCode: number
   data: T
